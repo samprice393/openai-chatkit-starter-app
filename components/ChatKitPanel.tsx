@@ -276,6 +276,70 @@ export function ChatKitPanel({
       attachments: {
         // Enable attachments
         enabled: true,
+        maxCount: 5,
+        maxSize: 10_485_760,
+      },
+    },
+    widgets: {
+      async onAction(action, widgetItem) {
+        if (isDev) {
+          console.debug("[ChatKitPanel] widgets.onAction", { action, widgetItem });
+        }
+
+        // Handle link/outlink actions from widgets
+        try {
+          const payload = (action as { payload?: Record<string, unknown> }).payload ?? {};
+          const url =
+            typeof (payload as { url?: unknown }).url === "string"
+              ? (payload as { url: string }).url
+              : typeof (payload as { href?: unknown }).href === "string"
+              ? (payload as { href: string }).href
+              : "";
+
+          if (
+            url &&
+            (action.type === "open_url" ||
+              action.type === "link" ||
+              action.type === "outlink" ||
+              action.type === "navigate")
+          ) {
+            const isMailOrTel = url.startsWith("mailto:") || url.startsWith("tel:");
+            if (isMailOrTel) {
+              window.location.href = url;
+              return;
+            }
+            const parsed = new URL(url, window.location.href);
+            if (!["http:", "https:"].includes(parsed.protocol)) {
+              if (isDev) console.warn("[ChatKitPanel] Blocked unsupported URL scheme:", url);
+              setErrorState({ integration: "Blocked unsupported URL scheme in widget action.", retryable: false });
+              return;
+            }
+            window.open(parsed.toString(), "_blank", "noopener,noreferrer");
+            return;
+          }
+        } catch (e) {
+          if (isDev) console.error("[ChatKitPanel] Failed to handle widget link action", e);
+          setErrorState({ integration: "Invalid link in widget action.", retryable: false });
+          return;
+        }
+
+        // Example: mirror the record_fact handling used by onClientTool
+        if (action.type === "record_fact") {
+          const id = String(action.payload?.fact_id ?? "");
+          const text = String(action.payload?.fact_text ?? "");
+          if (!id || processedFacts.current.has(id)) {
+            return;
+          }
+          processedFacts.current.add(id);
+          await onWidgetAction({
+            type: "save",
+            factId: id,
+            factText: text.replace(/\s+/g, " ").trim(),
+          });
+          return;
+        }
+
+        // No-op for unknown widget actions; presence of this handler satisfies integration
       },
     },
     threadItemActions: {
