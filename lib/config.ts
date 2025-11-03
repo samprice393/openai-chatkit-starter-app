@@ -7,51 +7,28 @@ export const CREATE_SESSION_ENDPOINT = "/api/create-session";
 
 export const STARTER_PROMPTS: StartScreenPrompt[] = [
   {
-    label: "What is ChatKit?",
-    prompt: "What is ChatKit and what does it do?",
-    icon: "circle-question",
+    label: "Car buyer on Instagram (1)",
+    prompt:
+      "Find 1 car buyer on Instagram. Include their profile URL and relevant information about their car buying interests.",
+    icon: "search",
   },
   {
-    label: "Instagram fitness leads in Austin (10)",
+    label: "TikTok creators in travel (12) — Europe",
     prompt:
-      "Find 10 high-quality fitness influencers in Austin on Instagram with profile links and contact info.",
-    icon: "circle-question",
+      "List 12 Europe-based travel creators on TikTok with accurate profile links and typical content focus.",
+    icon: "search",
   },
   {
-    label: "LinkedIn SaaS founders in the Nordics (15)",
+    label: "YouTube reviewers of productivity apps (8)",
     prompt:
-      "List 15 SaaS founders on LinkedIn located in the Nordics. Include company names and profile URLs.",
-    icon: "circle-question",
+      "Provide 8 YouTube creators who review productivity apps. Include channel URL and approximate subscriber count.",
+    icon: "search",
   },
   {
-    label: "TikTok fashion influencers in NYC (12)",
+    label: "Tech recruiters in London on X/Twitter (12)",
     prompt:
-      "Identify 12 TikTok fashion influencers in New York City and provide their accurate profile links.",
-    icon: "circle-question",
-  },
-  {
-    label: "YouTube AI educators (8)",
-    prompt:
-      "Gather 8 YouTube creators who teach AI concepts. Include channel URLs and audience size.",
-    icon: "circle-question",
-  },
-  {
-    label: "B2B marketers on X (10)",
-    prompt:
-      "Find 10 B2B marketing leaders on X/Twitter in the US with links to their profiles.",
-    icon: "circle-question",
-  },
-  {
-    label: "Eco-startup founders on Facebook (6)",
-    prompt:
-      "Locate 6 Facebook pages or groups run by eco-friendly startup founders with contact details.",
-    icon: "circle-question",
-  },
-  {
-    label: "Podcast hosts in fintech (8)",
-    prompt:
-      "Provide 8 fintech podcast hosts with their show titles and LinkedIn or website links.",
-    icon: "circle-question",
+      "Identify 12 tech recruiters in London on X/Twitter and include their profile URLs and company/agency when available.",
+    icon: "search",
   },
 ];
 
